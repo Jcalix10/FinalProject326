@@ -59,12 +59,12 @@ def movie_recomendations(movie_file, user_movie_file):
     return output_file
     
 
-def book_filter():
+def book_reccomendations():
         ''' Method to filter through each txt file and find recommended book
         '''
         pass
 
-def tv_show_filter():
+def tvshow_reccomendations():
         ''' Method to filter through each txt file and find recommended tv show
         '''
         pass
