@@ -6,8 +6,8 @@ INST335 FINAL PROJECT (MOVIE RECCOMENDER)
 '''
 
 
-def movie_file_reader(reccomender_csv):
-         recs = pd.read_csv(reccomender_csv)  
+def movie_file_reader(reccomendations_csv):
+         recs = pd.read_csv(reccomendations_csv)  
             
 
 def dup_counter():
