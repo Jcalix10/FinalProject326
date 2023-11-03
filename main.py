@@ -1,3 +1,20 @@
+import random as r
+import pandas as pd
+
+'''
+INST335 FINAL PROJECT (MOVIE RECCOMENDER)
+'''
+
+
+def movie_file_reader(reccomender_csv):
+         recs = pd.read_csv(reccomender_csv)  
+            
+
+def dup_counter():
+        ''' Method that counts duplicate recommendations from different people 
+            and asks the user if they would like to be recommended the most popular result
+        '''
+        pass
 
 
 def ask_question():
@@ -41,3 +58,28 @@ def movie_recomendations(movie_file, user_movie_file):
         output.writelines(non_duplicates)
     return output_file
     
+
+def book_filter():
+        ''' Method to filter through each txt file and find recommended book
+        '''
+        pass
+
+def tv_show_filter():
+        ''' Method to filter through each txt file and find recommended tv show
+        '''
+        pass
+
+def random_media():
+        ''' Method that chooses a random choice of media to output for the reader 
+            - called only if the reader selects that they don’t want to choose something 
+            from the playlist on their own
+            '''
+        pass
+    
+def __repr__():
+        pass
+
+def main():
+        ''' Main method that filters chosen files and creates new list of recommendations for user
+        '''
+        pass
