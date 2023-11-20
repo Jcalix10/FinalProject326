@@ -9,8 +9,11 @@ class Rec:
     def __init__(self):
             pass
 
-    def movie_file_reader(reccomendations_csv):
-            recs = pd.read_csv(reccomendations_csv)  
+    def movie_file_reader(self, reccomendations_csv):
+            df = pd.read_csv(reccomendations_csv)  
+            rec_list = df.to_dict()
+
+            return rec_list
             
 
     def dup_counter():
@@ -62,15 +65,25 @@ class Rec:
         return output_file
     
 
-    def book_reccomendations():
-        ''' Method to filter through each txt file and find recommended book
-        '''
-        pass
+    def book_reccomendations(book_file, user_book_file):
+        with open(book_file, 'r') as file1, open(user_book_file, 'r') as file2:
+            friend_file = set(file1.readlines())
+            user_file = set(file2.readlines())
+    
+        non_duplicates = friend_file.symmetric_difference(user_file)
+        with open(output_file, 'w') as output:
+            output.writelines(non_duplicates)
+        return output_file
 
-    def tvshow_reccomendations():
-        ''' Method to filter through each txt file and find recommended tv show
-        '''
-        pass
+    def tvshow_reccomendations(tv_show_file, user_tv_show_file):
+        with open(tv_show_file, 'r') as file1, open(user_tv_show_file, 'r') as file2:
+            friend_file = set(file1.readlines())
+            user_file = set(file2.readlines())
+    
+        non_duplicates = friend_file.symmetric_difference(user_file)
+        with open(output_file, 'w') as output:
+            output.writelines(non_duplicates)
+        return output_file
 
     def random_media():
         ''' Method that chooses a random choice of media to output for the reader 
