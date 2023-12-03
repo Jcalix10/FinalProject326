@@ -28,15 +28,38 @@ class Rec:
         choice = input(" Choose an Option:" + 
           "\n a. movie" +
           "\n b. music" +
-          "\n c. books\n")
+          "\n c. books" + 
+          "\n d. tv show \n")
     
         while True:
+            add_choices = True
             if choice == 'a':
-                print('Add 5 movies that yoy like in this format: movie name, ')
-                pass
+                while add_choices == True:
+                    movie_input = input('Add 5 movies that you like in this format: |movie name, genre, rum time|')
+                    #add code to add it into the txt file
+                    more_choice = input('Would you want to add more? Y or N')
+                    add_choices = True if more_choice == 'Y' else False  
             elif choice == 'b':
+                while add_choices == True:
+                    music_input = input('Add 5 songs that you like in this format: |song name, genre, minutes|')
+                    #add code to add it into the txt file
+                    more_choice = input('Would you want to add more? Y or N')
+                    add_choices = True if more_choice == 'Y' else False  
                 pass
-            elif choice == 'b':
+                pass
+            elif choice == 'c':
+                while add_choices == True:
+                    books_input = input('Add 5 books that you like in this format: |book name, genre, pages|')
+                    #add code to add it into the txt file
+                    more_choice = input('Would you want to add more? Y or N')
+                    add_choices = True if more_choice == 'Y' else False  
+                pass
+            elif choice == 'd':
+                while add_choices == True:
+                    tvshow_input = input('Add 5 tv shows that you like in this format: |show name, genre, number of seasons|')
+                    #add code to add it into the txt file
+                    more_choice = input('Would you want to add more? Y or N')
+                    add_choices = True if more_choice == 'Y' else False  
                 pass
             else:
                 print("Wrong input. Try again.")
