@@ -32,6 +32,7 @@ class Rec:
     
         while True:
             if choice == 'a':
+                print('Add 5 movies that yoy like in this format: movie name, ')
                 pass
             elif choice == 'b':
                 pass
