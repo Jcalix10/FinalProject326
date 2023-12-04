@@ -9,7 +9,10 @@ class Rec:
     def __init__(self):
             pass
 
-    def movie_file_reader(self, reccomendations_csv):
+    def file_reader(self, reccomendations_csv):
+            '''
+            
+            '''
             df = pd.read_csv(reccomendations_csv)  
             rec_list = df.to_dict()
 
@@ -19,6 +22,9 @@ class Rec:
     def dup_counter():
         ''' Method that counts duplicate recommendations from different people 
             and asks the user if they would like to be recommended the most popular result
+
+            Counts how many option are in the text files for each song
+
         '''
         pass
 
