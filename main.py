@@ -1,5 +1,4 @@
 import random as r
-import pandas as pd
 
 '''
 INST335 FINAL PROJECT (MOVIE RECCOMENDER)
@@ -9,14 +8,8 @@ class Rec:
     def __init__(self):
             pass
 
-    def file_reader(self, reccomendations_csv):
-            '''
-            
-            '''
-            df = pd.read_csv(reccomendations_csv)  
-            rec_list = df.to_dict()
-
-            return rec_list
+    def file_reader(self):
+           pass
             
 
     def dup_counter():
