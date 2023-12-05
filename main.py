@@ -12,17 +12,22 @@ class Rec:
            pass
             
 
-    def dup_counter():
-        ''' Method that counts duplicate recommendations from different people 
-            and asks the user if they would like to be recommended the most popular result
+    def counter(text):
 
-            Counts how many option are in the text files for each song
+        file = open(text, 'r')
+        reading = file.readlines()
+        total_counter = -1
+        new_list = []
 
-        '''
-        pass
+        for num in reading:
+            new_list.append(num)
+            counter +=1
+
+        return total_counter  
 
 
     def ask_question():
+
         print("What recomendations do you want?")
         choice = input(" Choose an Option:" + 
           "\n a. movie" +
