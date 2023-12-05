@@ -17,13 +17,17 @@ class Rec:
         file = open(text, 'r')
         reading = file.readlines()
         total_counter = -1
+        dup_counter = 0
         new_list = []
 
         for num in reading:
-            new_list.append(num)
-            counter +=1
+            if reading.count(num) >= 2:
+                new_list.append(num)
+                dup_counter +=1
 
-        return total_counter  
+            total_counter += 1
+
+        return total_counter, dup_counter, new_list 
 
 
     def ask_question():
