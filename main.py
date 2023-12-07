@@ -41,82 +41,136 @@ class Rec:
     
         while True:
             add_choices = True
-            if choice == 'a':
+            if choice == 'a': #movies
                 while add_choices == True:
-                    movie_input = input('Add 5 movies that you like in this format: |movie name, genre, rum time|')
-                    #add code to add it into the txt file
-                    more_choice = input('Would you want to add more? Y or N')
-                    add_choices = True if more_choice == 'Y' else False  
-            elif choice == 'b':
+                    movie_input = input('Add movies that you like in this format: |movie name, genre, rum time|')
+                    Rec.add_txt_file(movie_input, 'movies.txt') 
+            elif choice == 'b': #music
                 while add_choices == True:
-                    music_input = input('Add 5 songs that you like in this format: |song name, genre, minutes|')
-                    #add code to add it into the txt file
-                    more_choice = input('Would you want to add more? Y or N')
-                    add_choices = True if more_choice == 'Y' else False  
+                    music_input = input('Add songs that you like in this format: |song name, genre, minutes|')
+                    Rec.add_txt_file(movie_input, 'music.txt') 
                 pass
-                pass
-            elif choice == 'c':
+            elif choice == 'c': #books
                 while add_choices == True:
-                    books_input = input('Add 5 books that you like in this format: |book name, genre, pages|')
-                    #add code to add it into the txt file
-                    more_choice = input('Would you want to add more? Y or N')
-                    add_choices = True if more_choice == 'Y' else False  
+                    books_input = input('Add books that you like in this format: |book name, genre, pages|')
+                    Rec.add_txt_file(movie_input, 'books.txt') 
                 pass
-            elif choice == 'd':
+            elif choice == 'd': #tv shows
                 while add_choices == True:
-                    tvshow_input = input('Add 5 tv shows that you like in this format: |show name, genre, number of seasons|')
-                    #add code to add it into the txt file
-                    more_choice = input('Would you want to add more? Y or N')
-                    add_choices = True if more_choice == 'Y' else False  
+                    tvshow_input = input('Add tv shows that you like in this format: |show name, genre, number of seasons|')
+                    Rec.add_txt_file(movie_input, 'shows.txt') 
                 pass
             else:
                 print("Wrong input. Try again.")
     
-
-
-
-    def song_recomendations(friend_song_file, user_song_file):
-        with open(friend_song_file, 'r') as file1, open(user_song_file, 'r') as file2:
-            friend_file = set(file1.readlines())
-            user_file = set(file2.readlines())
+    def promt(input, file):
+        Rec.add_txt_file(file, file) 
+        
+        genre = input('what genre are you looking for? \n')
+        
+        return Rec.recomendations(file, 'recomendation.txt', 'Genre', genre)
+        
+        pass
     
-        non_duplicates = friend_file.symmetric_difference(user_file)
-        with open(output_file, 'w') as output:
-            output.writelines(non_duplicates)
+    def add_txt_file(string_input, file):
+        entry = string_input.strip('|')
+        info_list = []
+        
+        for i in entry:
+            if i.strip():
+                info = entry.strip(',').split(',')
+                name = info[0].strip()
+                genre = info[1].strip()
+                run_time = info[2].strip()     
+                
+                data = {
+                    'name': name,
+                    'genre': genre,
+                    'num_val': run_time
+                }
+                
+                if not Rec.is_duplicate_entry(data, file):
+                    info_list.append(data)
+                else:
+                    #add code to change the friends val in txt
+                    pass   
+
+        Rec.append_entries_to_file(info_list, file)        
+
+       
+        pass
+
+    def is_duplicate_entry(data, file):
+        with open(file, 'r') as file:
+            for line in file:
+                if all(info.strip() in line for info in data.values()):
+                    return True  
+
+        return False
+    
+    def append_entries_to_file(new_data, file_path):
+        with open(file_path, 'a') as file:
+            for data in new_data:
+                file.write(f"{data['name']}	{data['genre']}	{data['num_val']}	1")
+    
+    
+    def recomendations(input_file, output_file, genre_col, genre):
+        with open(input_file, 'r') as file1:
+            lines = input_file.readlines()
+    
+        filtered_records = [line.strip() for line in lines if line.split(' ')[genre_col].strip() == genre]
+
+        with open(output_file, 'w') as output_file:
+            for record in filtered_records:
+                output_file.write(record + '\n')
         return output_file
     
+    '''
+    def song_recomendations(input_file, output_file, genre_col, genre):
+        with open(input_file, 'r') as file1:
+            lines = input_file.readlines()
     
-    def movie_recomendations(movie_file, user_movie_file):
-        with open(movie_file, 'r') as file1, open(user_movie_file, 'r') as file2:
-            friend_file = set(file1.readlines())
-            user_file = set(file2.readlines())
-    
-        non_duplicates = friend_file.symmetric_difference(user_file)
-        with open(output_file, 'w') as output:
-            output.writelines(non_duplicates)
+        filtered_records = [line.strip() for line in lines if line.split(' ')[genre_col].strip() == genre]
+
+        with open(output_file, 'w') as output_file:
+            for record in filtered_records:
+                output_file.write(record + '\n')
         return output_file
     
-
-    def book_reccomendations(book_file, user_book_file):
-        with open(book_file, 'r') as file1, open(user_book_file, 'r') as file2:
-            friend_file = set(file1.readlines())
-            user_file = set(file2.readlines())
+    def movie_recomendations(input_file, output_file, genre_col, genre):
+        with open(input_file, 'r') as file1:
+            lines = input_file.readlines()
     
-        non_duplicates = friend_file.symmetric_difference(user_file)
-        with open(output_file, 'w') as output:
-            output.writelines(non_duplicates)
+        filtered_records = [line.strip() for line in lines if line.split(' ')[genre_col].strip() == genre]
+
+        with open(output_file, 'w') as output_file:
+            for record in filtered_records:
+                output_file.write(record + '\n')
         return output_file
 
-    def tvshow_reccomendations(tv_show_file, user_tv_show_file):
-        with open(tv_show_file, 'r') as file1, open(user_tv_show_file, 'r') as file2:
-            friend_file = set(file1.readlines())
-            user_file = set(file2.readlines())
+    def book_reccomendations(input_file, output_file, genre_col, genre):
+        with open(input_file, 'r') as file1:
+            lines = input_file.readlines()
     
-        non_duplicates = friend_file.symmetric_difference(user_file)
-        with open(output_file, 'w') as output:
-            output.writelines(non_duplicates)
+        filtered_records = [line.strip() for line in lines if line.split(' ')[genre_col].strip() == genre]
+
+        with open(output_file, 'w') as output_file:
+            for record in filtered_records:
+                output_file.write(record + '\n')
         return output_file
 
+    def tvshow_reccomendations(input_file, output_file, genre_col, genre):
+        with open(input_file, 'r') as file1:
+            lines = input_file.readlines()
+    
+        filtered_records = [line.strip() for line in lines if line.split(' ')[genre_col].strip() == genre]
+
+        with open(output_file, 'w') as output_file:
+            for record in filtered_records:
+                output_file.write(record + '\n')
+        return output_file
+    '''
+    
     def random_media():
         ''' Method that chooses a random choice of media to output for the reader 
             - called only if the reader selects that they don’t want to choose something 
