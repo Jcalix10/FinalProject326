@@ -44,21 +44,21 @@ class Rec:
             if choice == 'a': #movies
                 while add_choices == True:
                     movie_input = input('Add movies that you like in this format: |movie name, genre, rum time|')
-                    Rec.add_txt_file(movie_input, 'movies.txt') 
+                    Rec.promt(movie_input, 'movies.txt') 
             elif choice == 'b': #music
                 while add_choices == True:
                     music_input = input('Add songs that you like in this format: |song name, genre, minutes|')
-                    Rec.add_txt_file(movie_input, 'music.txt') 
+                    Rec.promt(movie_input, 'music.txt') 
                 pass
             elif choice == 'c': #books
                 while add_choices == True:
                     books_input = input('Add books that you like in this format: |book name, genre, pages|')
-                    Rec.add_txt_file(movie_input, 'books.txt') 
+                    Rec.promt(movie_input, 'books.txt') 
                 pass
             elif choice == 'd': #tv shows
                 while add_choices == True:
                     tvshow_input = input('Add tv shows that you like in this format: |show name, genre, number of seasons|')
-                    Rec.add_txt_file(movie_input, 'shows.txt') 
+                    Rec.promt(movie_input, 'shows.txt') 
                 pass
             else:
                 print("Wrong input. Try again.")
