@@ -125,51 +125,6 @@ class Rec:
                 output_file.write(record + '\n')
         return output_file
     
-    '''
-    def song_recomendations(input_file, output_file, genre_col, genre):
-        with open(input_file, 'r') as file1:
-            lines = input_file.readlines()
-    
-        filtered_records = [line.strip() for line in lines if line.split(' ')[genre_col].strip() == genre]
-
-        with open(output_file, 'w') as output_file:
-            for record in filtered_records:
-                output_file.write(record + '\n')
-        return output_file
-    
-    def movie_recomendations(input_file, output_file, genre_col, genre):
-        with open(input_file, 'r') as file1:
-            lines = input_file.readlines()
-    
-        filtered_records = [line.strip() for line in lines if line.split(' ')[genre_col].strip() == genre]
-
-        with open(output_file, 'w') as output_file:
-            for record in filtered_records:
-                output_file.write(record + '\n')
-        return output_file
-
-    def book_reccomendations(input_file, output_file, genre_col, genre):
-        with open(input_file, 'r') as file1:
-            lines = input_file.readlines()
-    
-        filtered_records = [line.strip() for line in lines if line.split(' ')[genre_col].strip() == genre]
-
-        with open(output_file, 'w') as output_file:
-            for record in filtered_records:
-                output_file.write(record + '\n')
-        return output_file
-
-    def tvshow_reccomendations(input_file, output_file, genre_col, genre):
-        with open(input_file, 'r') as file1:
-            lines = input_file.readlines()
-    
-        filtered_records = [line.strip() for line in lines if line.split(' ')[genre_col].strip() == genre]
-
-        with open(output_file, 'w') as output_file:
-            for record in filtered_records:
-                output_file.write(record + '\n')
-        return output_file
-    '''
     
     def random_media():
         ''' Method that chooses a random choice of media to output for the reader 
@@ -182,37 +137,6 @@ class Rec:
         pass
 
     def main():
-        
-        print("What recomendations do you want?")
-        choice = input(" Choose an Option:" + 
-          "\n a. movie" +
-          "\n b. music" +
-          "\n c. books" + 
-          "\n d. tv show \n")
-    
-        while True:
-            add_choices = True
-            if choice == 'a': #movies
-                while add_choices == True:
-                    movie_input = input('Add movies that you like in this format: |movie name, genre, rum time|')
-                    return Rec.promt(movie_input, 'movies.txt') 
-            elif choice == 'b': #music
-                while add_choices == True:
-                    music_input = input('Add songs that you like in this format: |song name, genre, minutes|')
-                    return Rec.promt(movie_input, 'music.txt') 
-                pass
-            elif choice == 'c': #books
-                while add_choices == True:
-                    books_input = input('Add books that you like in this format: |book name, genre, pages|')
-                    return Rec.promt(movie_input, 'books.txt') 
-                pass
-            elif choice == 'd': #tv shows
-                while add_choices == True:
-                    tvshow_input = input('Add tv shows that you like in this format: |show name, genre, number of seasons|')
-                    return Rec.promt(movie_input, 'shows.txt') 
-                pass
-            else:
-                print("Wrong input. Try again.")
         ''' Main method that filters chosen files and creates new list of recommendations for user
         '''
         pass
