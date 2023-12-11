@@ -140,3 +140,6 @@ class Rec:
         ''' Main method that filters chosen files and creates new list of recommendations for user
         '''
         pass
+
+    if __name__ == "__main__":
+        main()
