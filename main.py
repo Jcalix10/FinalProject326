@@ -32,68 +32,57 @@ class Rec:
 
 
     def ask_question(self):
-        """Promts the user to enter their choices
 
-        Returns:
-            txt file: returns a file with their recomended movie/music/books/tv shows
-        """
-        print("What recomendations do you want?")
-        choice = input(" Choose an Option:" + 
-                        "\n a. movie" +
-                        "\n b. music" +
-                        "\n c. books" + 
-                        "\n d. tv show \n")
-    
         while True:
+            print("What recomendations do you want?")
+            choice = input(" Choose an Option:" + 
+                            "\n a. movie" +
+                            "\n b. music" +
+                            "\n c. books" + 
+                            "\n d. tv show \n")
+        
+
             add_choices = True
             if choice == 'a': #movies
                 while add_choices == True:
                     movie_input = input('Add movies that you like in this format: |movie name, genre, rum time|')
-                    return Rec.promt(movie_input, 'movies.txt') 
+                    return self.promt(movie_input, 'movies.txt') 
             elif choice == 'b': #music
                 while add_choices == True:
                     music_input = input('Add songs that you like in this format: |song name, genre, minutes|')
-                    return Rec.promt(music_input, 'music.txt') 
+                    return self.promt(music_input, 'songs.txt') 
                 pass
             elif choice == 'c': #books
                 while add_choices == True:
                     books_input = input('Add books that you like in this format: |book name, genre, pages|')
-                    return Rec.promt(books_input, 'books.txt') 
+                    return self.promt(books_input, 'books.txt') 
                 pass
             elif choice == 'd': #tv shows
                 while add_choices == True:
                     tvshow_input = input('Add tv shows that you like in this format: |show name, genre, number of seasons|')
-                    return Rec.promt(tvshow_input, 'shows.txt') 
+                    return self.promt(tvshow_input, 'shows.txt') 
                 pass
             else:
                 print("Wrong input. Try again.")
                 
     
-    def promt(self, input, file):
-        """_summary_
+    def promt(self, user_input, file):
 
-        Args:
-            input (_type_): _description_
-            file (_type_): _description_
-
-        Returns:
-            _type_: _description_
-        """
-        Rec.add_txt_file(file, file) 
+        self.add_txt_file(user_input, file) 
         
         genre = input('what genre are you looking for? \n')
         
-        return Rec.recomendations(file, 'recomendation.txt', 'Genre', genre)
+        return self.recomendations(file, 'recomendation.txt', 'Genre', genre)
         
         pass
     
-    def add_txt_file(self, string_input, file):
-        entry = string_input.strip('|')
+    def add_txt_file(self, user_input, file):
+        entry = user_input.strip('|')
         info_list = []
         
-        for i in entry:
-            if i.strip():
-                info = entry.strip(',').split(',')
+        if entry.strip():
+            info = entry.strip(',').split(',')
+            if len(info) == 3:
                 name = info[0].strip()
                 genre = info[1].strip()
                 run_time = info[2].strip()     
@@ -104,61 +93,82 @@ class Rec:
                     'num_val': run_time
                 }
                 
-                if not Rec.is_duplicate_entry(data, file):
+                if not self.is_duplicate_entry(data, file):
                     info_list.append(data)
                 else:
-                    Rec.chage_friend_val(data, file)
-                    pass   
+                    self.change_friend_val(data, file)
 
-        Rec.append_entries_to_file(info_list, file)        
+        self.append_entries_to_file(info_list, file) 
 
        
         pass
-    def chage_friend_val(self, data, file, ):
-        column_name = 'Friends'
-        key_column = 'Title'
-        key_value = data['name']  
-        
-        with open(file, 'r') as file:
-            reader = csv.DictReader(file)
-            rows = list(reader)
-
-        for row in rows:
-            if row[key_column] == key_value:
-                row[column_name] += 1
-
-        with open(file, 'w', newline='') as file:
-            fieldnames = reader.fieldnames
-            writer = csv.DictWriter(file, fieldnames=fieldnames)
-
-            writer.writeheader()
-
-            writer.writerows(rows)
-        pass
+    
     def is_duplicate_entry(self, data, file):
         with open(file, 'r') as file:
             for line in file:
                 if all(info.strip() in line for info in data.values()):
                     return True  
 
-        return False
+
     
     def append_entries_to_file(self, new_data, file_path):
         with open(file_path, 'a') as file:
             for data in new_data:
                 file.write(f"{data['name']}	{data['genre']}	{data['num_val']}	1")
     
-    
+    def change_friend_val(self, data, file_path):
+        column_name = 'Friends'
+        key_column = 'name'
+        key_value = data['name']  
+        
+        with open(file_path, 'r', newline='') as file:
+            reader = csv.DictReader(file, delimiter='\t')
+            rows = list(reader)
+
+        for row in rows:
+            if key_column in row and row[key_column] == key_value:
+                if column_name in row:
+                    row[column_name] = str(int(row[column_name]) + 1)
+                else:
+                    row[column_name] = '1'
+
+        with open(file_path, 'w', newline='') as file:
+            fieldnames = reader.fieldnames
+            writer = csv.DictWriter(file, fieldnames=fieldnames, delimiter='\t')
+
+            writer.writeheader()
+            writer.writerows(rows)
+        
     def recomendations(self, input_file, output_file, genre_col, genre):
         with open(input_file, 'r') as file1:
-            lines = input_file.readlines()
-    
-        filtered_records = [line.strip() for line in lines if line.split(' ')[genre_col].strip() == genre]
+            lines = file1.readlines()
+            
+        header = lines[0].split('\t')
+        genre_col_index = None
+
+        for idx, col_name in enumerate(header):
+            if genre_col.lower() in col_name.lower():
+                genre_col_index = idx
+                break
+
+        if genre_col_index is None:
+            print(f"Error: Genre column '{genre_col}' not found in the header.")
+            return
+
+        print(f"Genre column index: {genre_col_index}")
 
         with open(output_file, 'w') as output_file:
-            for record in filtered_records:
-                output_file.write(record + '\n')
+
+            output_file.write(lines[0])
+
+            for line in lines[1:]:
+
+                if line.split('\t')[genre_col_index].strip().lower() == genre.lower():
+                    output_file.write(line)
+                    print(f"Matching record: {line.strip()}")
+
         return output_file
+
     
     
     def random_media():
