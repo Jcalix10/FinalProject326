@@ -1,4 +1,5 @@
 import random as r
+import csv
 
 '''
 INST335 FINAL PROJECT (MOVIE RECCOMENDER)
@@ -31,7 +32,11 @@ class Rec:
 
 
     def ask_question():
+        """Promts the user to enter their choices
 
+        Returns:
+            txt file: returns a file with their recomended movie/music/books/tv shows
+        """
         print("What recomendations do you want?")
         choice = input(" Choose an Option:" + 
           "\n a. movie" +
@@ -64,6 +69,15 @@ class Rec:
                 print("Wrong input. Try again.")
     
     def promt(input, file):
+        """_summary_
+
+        Args:
+            input (_type_): _description_
+            file (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         Rec.add_txt_file(file, file) 
         
         genre = input('what genre are you looking for? \n')
@@ -99,7 +113,27 @@ class Rec:
 
        
         pass
+    def chage_friend_val(data, file, ):
+        column_name = 'Friends'
+        key_column = 'Title'
+        key_value = data['name']  
+        
+        with open(file, 'r') as file:
+            reader = csv.DictReader(file)
+            rows = list(reader)
 
+        for row in rows:
+            if row[key_column] == key_value:
+                row[column_name] += 1
+
+        with open(file, 'w', newline='') as file:
+            fieldnames = reader.fieldnames
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+
+            writer.writeheader()
+
+            writer.writerows(rows)
+        pass
     def is_duplicate_entry(data, file):
         with open(file, 'r') as file:
             for line in file:
