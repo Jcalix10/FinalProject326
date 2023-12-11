@@ -13,7 +13,7 @@ class Rec:
            pass
             
 
-    def counter(text):
+    def counter(self, text):
 
         file = open(text, 'r')
         reading = file.readlines()
@@ -31,7 +31,7 @@ class Rec:
         return total_counter, dup_counter, dup_list 
 
 
-    def ask_question():
+    def ask_question(self):
         """Promts the user to enter their choices
 
         Returns:
@@ -39,10 +39,10 @@ class Rec:
         """
         print("What recomendations do you want?")
         choice = input(" Choose an Option:" + 
-          "\n a. movie" +
-          "\n b. music" +
-          "\n c. books" + 
-          "\n d. tv show \n")
+                        "\n a. movie" +
+                        "\n b. music" +
+                        "\n c. books" + 
+                        "\n d. tv show \n")
     
         while True:
             add_choices = True
@@ -53,22 +53,23 @@ class Rec:
             elif choice == 'b': #music
                 while add_choices == True:
                     music_input = input('Add songs that you like in this format: |song name, genre, minutes|')
-                    return Rec.promt(movie_input, 'music.txt') 
+                    return Rec.promt(music_input, 'music.txt') 
                 pass
             elif choice == 'c': #books
                 while add_choices == True:
                     books_input = input('Add books that you like in this format: |book name, genre, pages|')
-                    return Rec.promt(movie_input, 'books.txt') 
+                    return Rec.promt(books_input, 'books.txt') 
                 pass
             elif choice == 'd': #tv shows
                 while add_choices == True:
                     tvshow_input = input('Add tv shows that you like in this format: |show name, genre, number of seasons|')
-                    return Rec.promt(movie_input, 'shows.txt') 
+                    return Rec.promt(tvshow_input, 'shows.txt') 
                 pass
             else:
                 print("Wrong input. Try again.")
+                
     
-    def promt(input, file):
+    def promt(self, input, file):
         """_summary_
 
         Args:
@@ -86,7 +87,7 @@ class Rec:
         
         pass
     
-    def add_txt_file(string_input, file):
+    def add_txt_file(self, string_input, file):
         entry = string_input.strip('|')
         info_list = []
         
@@ -106,14 +107,14 @@ class Rec:
                 if not Rec.is_duplicate_entry(data, file):
                     info_list.append(data)
                 else:
-                    #add code to change the friends val in txt
+                    Rec.chage_friend_val(data, file)
                     pass   
 
         Rec.append_entries_to_file(info_list, file)        
 
        
         pass
-    def chage_friend_val(data, file, ):
+    def chage_friend_val(self, data, file, ):
         column_name = 'Friends'
         key_column = 'Title'
         key_value = data['name']  
@@ -134,7 +135,7 @@ class Rec:
 
             writer.writerows(rows)
         pass
-    def is_duplicate_entry(data, file):
+    def is_duplicate_entry(self, data, file):
         with open(file, 'r') as file:
             for line in file:
                 if all(info.strip() in line for info in data.values()):
@@ -142,13 +143,13 @@ class Rec:
 
         return False
     
-    def append_entries_to_file(new_data, file_path):
+    def append_entries_to_file(self, new_data, file_path):
         with open(file_path, 'a') as file:
             for data in new_data:
                 file.write(f"{data['name']}	{data['genre']}	{data['num_val']}	1")
     
     
-    def recomendations(input_file, output_file, genre_col, genre):
+    def recomendations(self, input_file, output_file, genre_col, genre):
         with open(input_file, 'r') as file1:
             lines = input_file.readlines()
     
@@ -170,10 +171,13 @@ class Rec:
     def __repr__():
         pass
 
-    def main():
+    def main(self):
+        self.ask_question()
         ''' Main method that filters chosen files and creates new list of recommendations for user
         '''
         pass
 
-    if __name__ == "__main__":
-        main()
+if __name__ == "__main__":
+    r = Rec()
+    r.main()
+ 
