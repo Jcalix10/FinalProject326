@@ -1,7 +1,4 @@
-Title	Genre	Length	Friends	
-Toxic by Britney Spears	Pop	3:18	8	
-Crazy in Love by Beyonce	Pop	3:55	9	
-Hollaback Girl by Gwen Stefani	Pop	3:19	10	
-Me & U by Cassie	Pop	3:12	4	
-Gimme More by Britney Spears	Pop	4:11	6	
-All To Well	Pop	10:00	1
+Title	Genre	Run Time (min)	Friends
+Midsommar	Horror	148	4
+Get Out	Horror	104	7
+IT	Horror	135	5

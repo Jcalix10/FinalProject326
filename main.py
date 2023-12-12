@@ -45,21 +45,21 @@ class Rec:
             add_choices = True
             if choice == 'a': #movies
                 while add_choices == True:
-                    movie_input = input('Add movies that you like in this format: |movie name, genre, rum time|')
+                    movie_input = input('Add movies that you like in this format: |movie name, genre, rum time| \n')
                     return self.promt(movie_input, 'movies.txt') 
             elif choice == 'b': #music
                 while add_choices == True:
-                    music_input = input('Add songs that you like in this format: |song name, genre, minutes|')
+                    music_input = input('Add songs that you like in this format: |song name, genre, minutes| \n')
                     return self.promt(music_input, 'songs.txt') 
                 pass
             elif choice == 'c': #books
                 while add_choices == True:
-                    books_input = input('Add books that you like in this format: |book name, genre, pages|')
+                    books_input = input('Add books that you like in this format: |book name, genre, pages| \n')
                     return self.promt(books_input, 'books.txt') 
                 pass
             elif choice == 'd': #tv shows
                 while add_choices == True:
-                    tvshow_input = input('Add tv shows that you like in this format: |show name, genre, number of seasons|')
+                    tvshow_input = input('Add tv shows that you like in this format: |show name, genre, number of seasons| \n')
                     return self.promt(tvshow_input, 'shows.txt') 
                 pass
             else:
