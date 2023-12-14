@@ -42,29 +42,24 @@ class Rec:
                             "\n d. tv show \n")
         
 
-            add_choices = True
-            if choice == 'a': #movies
-                while add_choices == True:
-                    movie_input = input('Add movies that you like in this format: |movie name, genre, rum time| \n')
-                    return self.promt(movie_input, 'movies.txt') 
-            elif choice == 'b': #music
-                while add_choices == True:
+ 
+            
+            if choice == 'a': #movies    
+                    movie_input = input('Add movies that you like in this format: |movie name, genre, run time| \n')
+                    return self.promt(movie_input, 'movies.txt')  # Use self.promt instead of return
+
+            elif choice == 'b': #music             
                     music_input = input('Add songs that you like in this format: |song name, genre, minutes| \n')
-                    return self.promt(music_input, 'songs.txt') 
-                pass
-            elif choice == 'c': #books
-                while add_choices == True:
+                    return self.promt(music_input, 'songs.txt')                  
+            elif choice == 'c': #books              
                     books_input = input('Add books that you like in this format: |book name, genre, pages| \n')
-                    return self.promt(books_input, 'books.txt') 
-                pass
-            elif choice == 'd': #tv shows
-                while add_choices == True:
+                    return self.promt(books_input, 'books.txt')                    
+            elif choice == 'd': #tv shows         
                     tvshow_input = input('Add tv shows that you like in this format: |show name, genre, number of seasons| \n')
-                    return self.promt(tvshow_input, 'shows.txt') 
-                pass
+                    return self.promt(tvshow_input, 'shows.txt')                    
             else:
                 print("Wrong input. Try again.")
-                
+
     
     def promt(self, user_input, file):
 
@@ -90,55 +85,89 @@ class Rec:
                 data = {
                     'name': name,
                     'genre': genre,
-                    'num_val': run_time
+                    'num_val': run_time,
+                    'friend': 1
                 }
                 
-                if not self.is_duplicate_entry(data, file):
-                    info_list.append(data)
-                else:
+                existing_friends = self.get_existing_friends(data, file)
+                if existing_friends is not None:
+                    data['friend'] = existing_friends + 1
                     self.change_friend_val(data, file)
+                else:
+                    info_list.append(data)
 
-        self.append_entries_to_file(info_list, file) 
+        self.append_entries_to_file(info_list, file)
 
        
-        pass
+                
     
     def is_duplicate_entry(self, data, file):
         with open(file, 'r') as file:
-            for line in file:
-                if all(info.strip() in line for info in data.values()):
-                    return True  
+            reader = csv.DictReader(file, delimiter='\t')
+            for row in reader:
+                if all(info.strip() == row[key].strip() for key, info in data.items() if key in row):
+                    return True
+        return False
+
+
+
+
 
 
     
     def append_entries_to_file(self, new_data, file_path):
         with open(file_path, 'a') as file:
             for data in new_data:
-                file.write(f"{data['name']}	{data['genre']}	{data['num_val']}	1")
+                file.write(f"{data['name']}	{data['genre']}	{data['num_val']}\t1")
+    
+    def get_existing_friends(self, data, file):
+        with open(file, 'r') as file:
+            for line in file:
+                line_data = line.strip().split('\t')
+                data_values = [str(value) for value in data.values()]  # Convert all values to string
+                if all(info.strip() == line_data[idx].strip() for idx, info in enumerate(data_values)):
+                    existing_friends = line_data[-1].strip()
+                    return int(existing_friends) if existing_friends.isdigit() else 0
+        return 0
+
+            
+
+
+
+
     
     def change_friend_val(self, data, file_path):
-        column_name = 'Friends'
-        key_column = 'name'
-        key_value = data['name']  
-        
-        with open(file_path, 'r', newline='') as file:
+        key_column = 'Title'
+        key_value = data['name']
+
+        with open(file_path, 'r') as file:
             reader = csv.DictReader(file, delimiter='\t')
             rows = list(reader)
 
         for row in rows:
-            if key_column in row and row[key_column] == key_value:
-                if column_name in row:
-                    row[column_name] = str(int(row[column_name]) + 1)
-                else:
-                    row[column_name] = '1'
+            if row[key_column] and row[key_column].strip() == key_value:
+                current_friends_str = row['Friends']
+                try:
+                    current_friends = int(current_friends_str) if current_friends_str else 0
+                    current_friends += 1
+                    row['Friends'] = str(current_friends)
+                except ValueError:
+                    print(f"Invalid friend value: {current_friends_str}")
+                    row['Friends'] = '1'
 
         with open(file_path, 'w', newline='') as file:
             fieldnames = reader.fieldnames
-            writer = csv.DictWriter(file, fieldnames=fieldnames, delimiter='\t')
-
+            writer = csv.DictWriter(file, delimiter='\t', fieldnames=fieldnames)
             writer.writeheader()
-            writer.writerows(rows)
-        
+            writer.writerows(row for row in rows if row is not None)
+
+
+
+
+
+
+
+  
     def recomendations(self, input_file, output_file, genre_col, genre):
         with open(input_file, 'r') as file1:
             lines = file1.readlines()

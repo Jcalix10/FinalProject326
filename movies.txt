@@ -18,5 +18,4 @@ Just Wright	Romance	100	2
 IT	Horror	135	5
 Maleficent	Fantasy	97	2
 Everything Everywhere All At Once	Drama	139	10
-Up	Family	100	1
-Barbie	Comedy	114	1
+Up	Family	100	3
