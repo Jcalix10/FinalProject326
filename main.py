@@ -1,17 +1,83 @@
 import random as r
 import csv
+from tkinter import *
 
 '''
 INST335 FINAL PROJECT (MOVIE RECCOMENDER)
 '''
-class Rec:
-      
-    def __init__(self):
-            pass
 
-    def file_reader(self):
-           pass
-            
+class Rec(Frame):
+      
+    def __init__(self, master):
+        super(Rec, self).__init__(master)
+        self.grid()
+        self.pack()
+        self.create_widgets()
+
+    def printinput(self):
+        self.inputValue = self.moviebox.get("1.0", "end-1c")
+        
+
+    def movie(self):
+        self.clear_screen()
+        self.textbox2 = Label(self, text="Add movies that you like in this format: |movie name, genre, rum time|")
+        self.textbox2.pack(padx= 20, pady=20)
+        self.moviebox= Text(root, height=2, width=10)
+        self.moviebox.pack()
+
+        buttonCommit = Button(root, height=1, width=10, text="Confirm", command=lambda: self.printinput())
+        buttonCommit.pack()
+        
+
+       # movie_input = input('Add movies that you like in this format: |movie name, genre, rum time| \n') 
+        return self.promt(self.printinput(), 'movies.txt')
+       
+
+    def book(self):
+
+        books_input = input('Add books that you like in this format: |book name, genre, pages| \n')
+        return self.promt(books_input, 'books.txt') 
+        
+    def song(self):
+        self.clear_screen()
+        music_input = input('Add songs that you like in this format: |song name, genre, minutes| \n')
+        return self.promt(music_input, 'songs.txt') 
+
+    def tvshow(self):
+        self.clear_screen()
+        tvshow_input = input('Add tv shows that you like in this format: |show name, genre, number of seasons| \n')
+        return self.promt(tvshow_input, 'shows.txt') 
+
+    def create_widgets(self):
+        bottomf = Frame(root)
+        bottomf.pack(side = BOTTOM)
+
+        button_quit = Button(bottomf, text = "Exit Program", command= self.quit)
+        button_quit.pack(padx=20, pady=20, side=BOTTOM)
+
+        self.textbox1 = Label(self, text = "What recomendations do you want?")
+        self.textbox1.pack(padx= 20, pady=20)
+
+        self.bttn1 = Button(self, text="Movie", command = self.movie)
+        self.bttn1.pack(ipadx= 20, ipady= 20, side=LEFT)
+
+        self.bttn2 = Button(self, text="Book", command = self.book)
+        self.bttn2.pack(ipadx= 20, ipady= 20, side= RIGHT)
+
+        self.bttn3 = Button(self, text="Song", command = self.song)
+        self.bttn3.pack(ipadx= 20, ipady= 20, side= LEFT)
+
+        self.bttn4 = Button(self, text="Tv Show", command = self.tvshow)
+        self.bttn4.pack(ipadx= 20, ipady= 20, side=RIGHT)
+
+
+    def clear_screen(self):
+        self.bttn1.pack_forget()
+        self.bttn2.pack_forget()
+        self.bttn3.pack_forget()
+        self.bttn4.pack_forget()
+        self.textbox1.pack_forget()
+         
 
     def counter(self, text):
 
@@ -69,8 +135,15 @@ class Rec:
     def promt(self, user_input, file):
 
         self.add_txt_file(user_input, file) 
+
+        self.clear_screen
+        self.textbox3 = Label(self, text="What genre are you looking for?")
+        self.textbox3.pack(padx= 20, pady=20)
+        self.entry = Entry(self)
+        self.entry.pack()
+        var.trace("w", self.printinput)
         
-        genre = input('what genre are you looking for? \n')
+        genre = input('What genre are you looking for?')
         
         return self.recomendations(file, 'recomendation.txt', 'Genre', genre)
         
@@ -187,7 +260,16 @@ class Rec:
         '''
         pass
 
-if __name__ == "__main__":
+root = Tk()
+var = StringVar()
+root.title("WatchMate")
+root.geometry("640x480")
+app = Rec(root)
+root.mainloop()
+  
+
+
+'''if __name__ == "__main__":
     r = Rec()
     r.main()
- 
+ '''
