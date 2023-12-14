@@ -106,13 +106,10 @@ class Rec(Frame):
                             "\n b. music" +
                             "\n c. books" + 
                             "\n d. tv show \n")
-        
-
- 
-            
+                
             if choice == 'a': #movies    
                     movie_input = input('Add movies that you like in this format: |movie name, genre, run time| \n')
-                    return self.promt(movie_input, 'movies.txt')  # Use self.promt instead of return
+                    return self.promt(movie_input, 'movies.txt') 
 
             elif choice == 'b': #music             
                     music_input = input('Add songs that you like in this format: |song name, genre, minutes| \n')
