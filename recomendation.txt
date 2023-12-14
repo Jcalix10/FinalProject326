@@ -1,4 +1,1 @@
 Title	Genre	Run Time (min)	Friends
-Midsommar	Horror	148	4
-Get Out	Horror	104	7
-IT	Horror	135	5
