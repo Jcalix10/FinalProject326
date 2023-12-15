@@ -20,7 +20,7 @@ Maleficent	Fantasy	97	2
 Everything Everywhere All At Once	Drama	139	10
 Up	Family	100	3
 Barbie	Comedy	114	2
-Frozen	Family	100	1
+Frozen	Family	100	2
 Tangled	Family	100	1
 Kung Fu Panda	Family	110	1
 Angry Birds	Family	105	1
