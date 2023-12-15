@@ -1,192 +1,352 @@
-import tkinter as tk
-from tkinter import messagebox
 import random as r
 import csv
+from tkinter import *
+import unittest
 
 class Rec:
-    def __init__(self):
+    
+   def __init__(self):
         pass
 
-    def file_reader(self):
-        pass
 
-    def counter(self, text):
-        pass
+   def counter(self, text):
+       '''
+       Counter method for files
 
-    def ask_question(self):
-        while True:
-            print("What recommendations do you want?")
-            choice = input("Choose an Option:" + "\n a. movie" + "\n b. music" + "\n c. books" + "\n d. tv show \n")
+       Args:
+       self and text
 
-            if choice.lower() == 'a':
-                movie_input = input('Add movies that you like in this format: |movie name, genre, run time| \n')
-                self.show_popup(self.promt(movie_input, 'movies.txt'))
+       Returns:
+       total_counter
+       '''
 
-            elif choice.lower() == 'b':
-                music_input = input('Add songs that you like in this format: |song name, genre, minutes| \n')
-                self.show_popup(self.promt(music_input, 'songs.txt'))
+       file = open(text, 'r')
+       count = file.readlines().count
 
-            elif choice.lower() == 'c':
-                books_input = input('Add books that you like in this format: |book name, genre, pages| \n')
-                self.show_popup(self.promt(books_input, 'books.txt'))
 
-            elif choice.lower() == 'd':
-                tvshow_input = input('Add TV shows that you like in this format: |show name, genre, number of seasons| \n')
-                self.show_popup(self.promt(tvshow_input, 'shows.txt'))
+       return count
 
-            else:
-                print("Wrong input. Try again.")
+   def userchoice(self):
+       print("What would you like to do?")
+       userc = input("Pick an Option:" +
+                     "\n a. Get a recommendation" +
+                     "\n b. Recommend a piece of media \n")
+       
+       if userc == 'a':
+           return self.ask_question()
+       elif userc == 'b':
+           print("What media type would you like to recommend?")
+           userrec = input(" Choose an Option:" +
+                           "\n a. movie" +
+                           "\n b. music" +
+                           "\n c. book" +
+                           "\n d. tv show \n")
+           
+           if userrec == 'movie': #movies   
+                   movie_input = input('Add movies that you would like to recommend in this format: |movie name, genre, run time| \n')
+                   return self.add_txt_file(movie_input, 'movies.txt')  
 
-    def promt(self, user_input, file):
-        self.add_txt_file(user_input, file)
-        genre = input('What genre are you looking for? \n')
-        return self.recommendations(file, 'recommendation.txt', 'Genre', genre)
+           elif userrec == 'music': #music            
+                   music_input = input('Add songs that you would like to recommend in this format: |song name, genre, minutes| \n')
+                   return self.add_txt_file(music_input, 'songs.txt')                 
+           elif userrec == 'book': #books             
+                   books_input = input('Add books that you would like to recommend in this format: |book name, genre, pages| \n')
+                   return self.add_txt_file(books_input, 'books.txt')                   
+           elif userrec == 'tv show': #tv shows        
+                   tvshow_input = input('Add tv shows that you would like to recommend in this format: |show name, genre, number of seasons| \n')
+                   return self.add_txt_file(tvshow_input, 'shows.txt')                   
+           else:
+               print("Wrong input. Try again.")
+               
+       else:
+           print("Pick a or b")
 
-    def add_txt_file(self, user_input, file):
-        entry = user_input.strip('|')
-        info_list = []
 
-        if entry.strip():
-            info = entry.strip(',').split(',')
-            if len(info) == 3:
-                name = info[0].strip()
-                genre = info[1].strip()
-                run_time = info[2].strip()
 
-                data = {
-                    'name': name,
-                    'genre': genre,
-                    'num_val': run_time,
-                    'friend': 1
-                }
+   def ask_question(self, choice = 'a', movie_input = "Jaws, Horror, 145", music_input = "Life is Good by Drake", 
+                    books_input = "Cat in the Hat by Dr.Seuss, Comedy, 23", tvshow_input = "Breaking Bad, Drama, 5"):
+       '''
+       A menu for asking the user about their preferences in different categories (movies, music, books, and TV shows).
+       It also prompts the user to provide input in a specific format for each category and then calls the prompt method.
 
-                existing_friends = self.get_existing_friends(data, file)
-                if existing_friends is not None:
-                    data['friend'] = existing_friends + 1
-                    self.change_friend_val(data, file)
-                else:
-                    info_list.append(data)
+       Args:
+       self
 
-        self.append_entries_to_file(info_list, file)
+       Returns:
+       self.prompt(media_input, 'corresponding_text_file.txt') 
+       '''
 
-    def is_duplicate_entry(self, data, file):
-        with open(file, 'r') as file:
-            reader = csv.DictReader(file, delimiter='\t')
-            for row in reader:
-                if all(info.strip() == row[key].strip() for key, info in data.items() if key in row):
-                    return True
-        return False
+       while True:
+           print("What recomendations do you want?")
+           choice = input(" Choose an Option:" +
+                           "\n a. movie" +
+                           "\n b. music" +
+                           "\n c. book" +
+                           "\n d. tv show \n")
+      
 
-    def append_entries_to_file(self, new_data, file_path):
-        with open(file_path, 'a') as file:
-            for data in new_data:
-                file.write(f"{data['name']}	{data['genre']}	{data['num_val']}\t1")
+          
+           if choice == 'movie': #movies   
+                   movie_input = input('Add movies that you like in this format: |movie name, genre, run time| \n')
+                   return self.prompt(movie_input, 'movies.txt')  
 
-    def get_existing_friends(self, data, file):
-        with open(file, 'r') as file:
-            for line in file:
-                line_data = line.strip().split('\t')
-                data_values = [str(value) for value in data.values()]  
-                if all(info.strip() == line_data[idx].strip() for idx, info in enumerate(data_values)):
-                    existing_friends = line_data[-1].strip()
-                    return int(existing_friends) if existing_friends.isdigit() else 0
-        return 0
+           elif choice == 'music': #music            
+                   music_input = input('Add songs that you like in this format: |song name, genre, minutes| \n')
+                   return self.prompt(music_input, 'songs.txt')                 
+           elif choice == 'book': #books             
+                   books_input = input('Add books that you like in this format: |book name, genre, pages| \n')
+                   return self.prompt(books_input, 'books.txt')                   
+           elif choice == 'tv show': #tv shows        
+                   tvshow_input = input('Add tv shows that you like in this format: |show name, genre, number of seasons| \n')
+                   return self.prompt(tvshow_input, 'shows.txt')                   
+           else:
+               print("Wrong input. Try again.")
 
-    def change_friend_val(self, data, file_path):
-        key_column = 'Title'
-        key_value = data['name']
 
-        with open(file_path, 'r') as file:
-            reader = csv.DictReader(file, delimiter='\t')
-            rows = list(reader)
 
-        for row in rows:
-            if row[key_column] and row[key_column].strip() == key_value:
-                current_friends_str = row['Friends']
-                try:
-                    current_friends = int(current_friends_str) if current_friends_str else 0
-                    current_friends += 1
-                    row['Friends'] = str(current_friends)
-                except ValueError:
-                    print(f"Invalid friend value: {current_friends_str}")
-                    row['Friends'] = '1'
 
-        with open(file_path, 'w', newline='') as file:
-            fieldnames = reader.fieldnames
-            writer = csv.DictWriter(file, delimiter='\t', fieldnames=fieldnames)
-            writer.writeheader()
-            writer.writerows(row for row in rows if row is not None)
+   def prompt(self, user_input, file):
+       '''
+       Grabs user input and puts it into the corresponding txt file
 
-    def recommendations(self, input_file, output_file, genre_col, genre):
-        with open(input_file, 'r') as file1:
-            lines = file1.readlines()
+       Args: 
+       self, user_input, file
 
-        header = lines[0].split('\t')
-        genre_col_index = None
+       Returns: 
+       self.recomendations(file, 'recomendation.txt', 'Genre', genre)
+       '''
 
-        for idx, col_name in enumerate(header):
-            if genre_col.lower() in col_name.lower():
-                genre_col_index = idx
-                break
+       self.add_txt_file(user_input, file)
+      
+       genre = input('what genre are you looking for? \n')
+      
+       return self.recomendations(file, 'recomendation.txt', 'Genre', genre)
+      
+    
+  
+   def add_txt_file(self, user_input, file):
+       '''
+       Processes user input, extracts information, and updates a data structure 
 
-        if genre_col_index is None:
-            print(f"Error: Genre column '{genre_col}' not found in the header.")
-            return
+       Args:
+       self, user_input, file
 
-        print(f"Genre column index: {genre_col_index}")
+       Returns:
+       An updated data structure that splits up user input into correct columns
+       '''
+       
+       entry = user_input.strip('|')
+       info_list = []
+      
+       if entry.strip():
+           info = entry.strip(',').split(',')
+           if len(info) == 3:
+               name = info[0].strip()
+               genre = info[1].strip()
+               run_time = info[2].strip()    
+              
+               data = {
+                   'name': name,
+                   'genre': genre,
+                   'num_val': run_time,
+                   'friend': 1
+               }
+              
+               existing_friends = self.get_existing_friends(data, file)
+               if existing_friends is not None:
+                   data['friend'] = existing_friends + 1
+                   self.change_friend_val(data, file)
+               else:
+                   info_list.append(data)
 
-        with open(output_file, 'w') as output_file:
 
-            output_file.write(lines[0])
+       self.append_entries_to_file(info_list, file)
 
-            for line in lines[1:]:
-                if line.split('\t')[genre_col_index].strip().lower() == genre.lower():
-                    output_file.write(line)
-                    print(f"Matching record: {line.strip()}")
 
-        return output_file
+     
+              
+  
+   def is_duplicate_entry(self, data, file):
+       '''
+       Checks to see if a set of data already exists in a file by comparing each row in the file with the user data
 
-    def random_media(self):
-        pass
+       Args:
+       self, data, and file
 
-    def __repr__(self):
-        pass
+       Returns:
+       True or False whether or not it already exists
+       '''
+       with open(file, 'r') as file:
+           reader = csv.DictReader(file, delimiter='\t')
+           for row in reader:
+               if all(info.strip() == row[key].strip() for key, info in data.items() if key in row):
+                   return True
+       return False
 
-    def main(self):
-        self.ask_question()
 
-class RecUI:
-    def __init__(self, rec_instance):
-        self.rec = rec_instance
 
-    def show_popup(self, message):
-        print("Popup:", message)
+  
+   def append_entries_to_file(self, new_data, file_path):
+       '''
+       Appends new entries to a file
 
-    def ask_question(self):
-        while True:
-            print("What recommendations do you want?")
-            choice = input("Choose an Option:" + "\n a. movie" + "\n b. music" + "\n c. books" + "\n d. tv show \n")
+       Args:
+       self, new_data, and file_path
 
-            if choice.lower() == 'a':
-                movie_input = input('Add movies that you like in this format: |movie name, genre, run time| \n')
-                self.show_popup(self.rec.promt(movie_input, 'movies.txt'))
+       Returns:
+       None
+       '''
+       with open(file_path, 'a') as file:
+           for data in new_data:
+               file.write(f"{data['name']} {data['genre']} {data['num_val']}\t1")
+  
+   def get_existing_friends(self, data, file):
+       '''
+       Reads a file, parses through it, and checks if there are repeated entries based on user input.
+       If there is a repeated entry, it increases counter/returns the number of existing friends
+       
+       Args:
+       self, data, and file 
 
-            elif choice.lower() == 'b':
-                music_input = input('Add songs that you like in this format: |song name, genre, minutes| \n')
-                self.show_popup(self.rec.promt(music_input, 'songs.txt'))
+       Returns:
+       integer of friends
+       '''
+       with open(file, 'r') as file:
+           for line in file:
+               line_data = line.strip().split('\t')
+               data_values = [str(value) for value in data.values()]  # Convert all values to string
+               if all(info.strip() == line_data[idx].strip() for idx, info in enumerate(data_values)):
+                   existing_friends = line_data[-1].strip()
+                   return int(existing_friends) if existing_friends.isdigit() else 0
+       return 0
 
-            elif choice.lower() == 'c':
-                books_input = input('Add books that you like in this format: |book name, genre, pages| \n')
-                self.show_popup(self.rec.promt(books_input, 'books.txt'))
 
-            elif choice.lower() == 'd':
-                tvshow_input = input('Add TV shows that you like in this format: |show name, genre, number of seasons| \n')
-                self.show_popup(self.rec.promt(tvshow_input, 'shows.txt'))
 
-            else:
-                print("Wrong input. Try again.")
+  
+   def change_friend_val(self, data, file_path):
+       '''
+       Updates the Friends value in a file based on user input
 
+       Args:
+       self, data, and file_path
+
+       Returns:
+       None
+       '''
+       key_column = 'Title'
+       key_value = data['name']
+
+
+       with open(file_path, 'r') as file:
+           reader = csv.DictReader(file, delimiter='\t')
+           rows = list(reader)
+
+
+       for row in rows:
+           if row[key_column] and row[key_column].strip() == key_value:
+               current_friends_str = row['Friends']
+               try:
+                   current_friends = int(current_friends_str) if current_friends_str else 0
+                   current_friends += 1
+                   row['Friends'] = str(current_friends)
+               except ValueError:
+                   print(f"Invalid friend value: {current_friends_str}")
+                   row['Friends'] = '1'
+
+
+       with open(file_path, 'w', newline='') as file:
+           fieldnames = reader.fieldnames
+           writer = csv.DictWriter(file, delimiter='\t', fieldnames=fieldnames)
+           writer.writeheader()
+           writer.writerows(row for row in rows if row is not None)
+
+
+
+   def recomendations(self, input_file, output_file, genre_col, genre):
+       '''
+       Reads a file, filters rows based on a specified genre column and genre, and writes the matching rows to an output file.
+
+       Args: 
+       self, input_file, output_file, genre_col, and genre
+
+       Returns
+       output_file
+       '''
+       with open(input_file, 'r') as file1:
+           lines = file1.readlines()
+          
+       header = lines[0].split('\t')
+       genre_col_index = None
+
+
+       for idx, col_name in enumerate(header):
+           if genre_col.lower() in col_name.lower():
+               genre_col_index = idx
+               break
+
+
+       if genre_col_index is None:
+           print(f"Error: Genre column '{genre_col}' not found in the header.")
+           return
+
+
+       print(f"Genre column index: {genre_col_index}")
+
+
+       with open(output_file, 'w') as output_file:
+
+
+           output_file.write(lines[0])
+
+
+           for line in lines[1:]:
+
+
+               if line.split('\t')[genre_col_index].strip().lower() == genre.lower():
+                   output_file.write(line)
+                   print(f"Matching record: {line.strip()}")
+
+
+       return output_file
+
+
+
+   def main(self):
+       '''
+       Main function
+
+       Args:
+       self
+
+       Returns:
+       Running program
+       '''
+       self.userchoice()
+       
+
+
+# Tests 
+
+              
+class Test(unittest.TestCase):
+
+    '''
+
+    def test_ask_question(self):
+        r = Rec()
+        self.assertEqual(r.ask_question('a'), r.prompt(movie_input="Frozen, Family, 123", file='movie.txt'))
+        self.assertEqual(r.ask_question('b'), r.prompt(music_input="Hello by Adele, Pop, 2:10", file='songs.txt'))
+        self.assertEqual(r.ask_question('c'), r.prompt(book_input="Cat in the Hat by Dr.Seuss, Comedy, 20", file='books.txt'))
+        self.assertEqual(r.ask_question('d'), r.prompt(tvshow_input="Breaking Bad, Drama, 5", file='shows.txt'))
+
+    def test_counter(self):
+        r = Rec()
+        
+        count = r.counter("movies.txt")
+        self.assertEqual(count, 1)
+'''
 if __name__ == "__main__":
-    rec = Rec()
-    rec_ui = RecUI(rec)
-    rec_ui.ask_question()
+   # unittest.main()   
+    r = Rec()
+    r.main()
+
