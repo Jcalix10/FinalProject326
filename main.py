@@ -5,9 +5,6 @@ import unittest
 
 class Rec:
     
-   def __init__(self):
-        pass
-
 
    def counter(self, text):
        '''
@@ -25,42 +22,6 @@ class Rec:
 
 
        return count
-
-   def userchoice(self):
-       print("What would you like to do?")
-       userc = input("Pick an Option:" +
-                     "\n a. Get a recommendation" +
-                     "\n b. Recommend a piece of media \n")
-       
-       if userc == 'a':
-           return self.ask_question()
-       elif userc == 'b':
-           print("What media type would you like to recommend?")
-           userrec = input(" Choose an Option:" +
-                           "\n a. movie" +
-                           "\n b. music" +
-                           "\n c. book" +
-                           "\n d. tv show \n")
-           
-           if userrec == 'movie': #movies   
-                   movie_input = input('Add movies that you would like to recommend in this format: |movie name, genre, run time| \n')
-                   return self.add_txt_file(movie_input, 'movies.txt')  
-
-           elif userrec == 'music': #music            
-                   music_input = input('Add songs that you would like to recommend in this format: |song name, genre, minutes| \n')
-                   return self.add_txt_file(music_input, 'songs.txt')                 
-           elif userrec == 'book': #books             
-                   books_input = input('Add books that you would like to recommend in this format: |book name, genre, pages| \n')
-                   return self.add_txt_file(books_input, 'books.txt')                   
-           elif userrec == 'tv show': #tv shows        
-                   tvshow_input = input('Add tv shows that you would like to recommend in this format: |show name, genre, number of seasons| \n')
-                   return self.add_txt_file(tvshow_input, 'shows.txt')                   
-           else:
-               print("Wrong input. Try again.")
-               
-       else:
-           print("Pick a or b")
-
 
 
    def ask_question(self, choice = 'a', movie_input = "Jaws, Horror, 145", music_input = "Life is Good by Drake", 
@@ -86,22 +47,21 @@ class Rec:
       
 
           
-           if choice == 'movie': #movies   
+           if choice == 'movie' or 'a': #movies   
                    movie_input = input('Add movies that you like in this format: |movie name, genre, run time| \n')
                    return self.prompt(movie_input, 'movies.txt')  
 
-           elif choice == 'music': #music            
+           elif choice == 'music' or 'b': #music            
                    music_input = input('Add songs that you like in this format: |song name, genre, minutes| \n')
                    return self.prompt(music_input, 'songs.txt')                 
-           elif choice == 'book': #books             
+           elif choice == 'book' or 'c': #books             
                    books_input = input('Add books that you like in this format: |book name, genre, pages| \n')
                    return self.prompt(books_input, 'books.txt')                   
-           elif choice == 'tv show': #tv shows        
+           elif choice == 'tv show' or 'd': #tv shows        
                    tvshow_input = input('Add tv shows that you like in this format: |show name, genre, number of seasons| \n')
                    return self.prompt(tvshow_input, 'shows.txt')                   
            else:
                print("Wrong input. Try again.")
-
 
 
 
@@ -162,9 +122,7 @@ class Rec:
 
        self.append_entries_to_file(info_list, file)
 
-
-     
-              
+        
   
    def is_duplicate_entry(self, data, file):
        '''
@@ -182,7 +140,6 @@ class Rec:
                if all(info.strip() == row[key].strip() for key, info in data.items() if key in row):
                    return True
        return False
-
 
 
   
@@ -219,7 +176,6 @@ class Rec:
                    existing_friends = line_data[-1].strip()
                    return int(existing_friends) if existing_friends.isdigit() else 0
        return 0
-
 
 
   
@@ -310,7 +266,6 @@ class Rec:
        return output_file
 
 
-
    def main(self):
        '''
        Main function
@@ -321,16 +276,14 @@ class Rec:
        Returns:
        Running program
        '''
-       self.userchoice()
+       self.ask_question()
        
-
 
 # Tests 
 
               
 class Test(unittest.TestCase):
-
-    '''
+ 
 
     def test_ask_question(self):
         r = Rec()
@@ -344,9 +297,10 @@ class Test(unittest.TestCase):
         
         count = r.counter("movies.txt")
         self.assertEqual(count, 1)
-'''
+
 if __name__ == "__main__":
    # unittest.main()   
+    
     r = Rec()
     r.main()
 
