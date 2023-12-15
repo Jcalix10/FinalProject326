@@ -16,6 +16,7 @@ class Rec(Frame):
 
     def printinput(self):
         self.inputValue = self.moviebox.get("1.0", "end-1c")
+        #return self.moviebox.get("1.0", "end-1c")
         
 
     def movie(self):
