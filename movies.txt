@@ -19,3 +19,8 @@ IT	Horror	135	5
 Maleficent	Fantasy	97	2
 Everything Everywhere All At Once	Drama	139	10
 Up	Family	100	3
+Barbie	Comedy	114	1
+Frozen	Family	100	1
+Tangled	Family	100	1
+Kung Fu Panda	Family	110	1
+Angry Birds	Family	105	1
