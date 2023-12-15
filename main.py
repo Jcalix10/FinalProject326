@@ -16,10 +16,16 @@ class Rec(Frame):
 
     def printinput(self):
         self.inputValue = self.moviebox.get("1.0", "end-1c")
-        #return self.moviebox.get("1.0", "end-1c")
+        self.movie_input_value = self.inputValue.strip() if self.inputValue else ""
+        print("Movie input:", self.movie_input_value)
+
+
+        self.promt(self.movie_input_value, 'movies.txt')
+
         
 
     def movie(self):
+        
         self.clear_screen()
         self.textbox2 = Label(self, text="Add movies that you like in this format: |movie name, genre, rum time|")
         self.textbox2.pack(padx= 20, pady=20)
@@ -31,7 +37,7 @@ class Rec(Frame):
         
 
         #movie_input = self.inputValue #input('Add movies that you like in this format: |movie name, genre, rum time| \n') 
-        return self.promt(self.printinput(), 'movies.txt')
+        
        
 
     def book(self):
@@ -97,7 +103,7 @@ class Rec(Frame):
 
         return total_counter, dup_counter, dup_list 
 
-
+    '''
     def ask_question(self):
 
         while True:
@@ -124,10 +130,10 @@ class Rec(Frame):
             else:
                 print("Wrong input. Try again.")
 
-    
+    '''
     def promt(self, user_input, file):
 
-        self.add_txt_file(user_input, file) 
+        '''self.add_txt_file(user_input, file) 
 
         self.clear_screen
         self.textbox3 = Label(self, text="What genre are you looking for?")
@@ -140,9 +146,28 @@ class Rec(Frame):
         
         return self.recomendations(file, 'recomendation.txt', 'Genre', genre)
         
-        pass
+        pass'''
+        
+        self.add_txt_file(user_input, file)
+        self.clear_screen()  # Added parentheses to call the method
+
+        self.textbox3 = Label(self, text="What genre are you looking for?")
+        self.textbox3.pack(padx=20, pady=20)
+        self.entry = Entry(self)
+        self.entry.pack()
+
+        # You need to decide how to handle this line since var is not defined in the method
+        # var.trace("w", self.printinput)
+
+        genre = input('What genre are you looking for?')
+        return self.recomendations(file, 'recomendation.txt', 'Genre', genre)
+
     
     def add_txt_file(self, user_input, file):
+        if user_input is None or not user_input.strip():
+            print("User input is empty or None.")
+            # Handle the case appropriately, e.g., return an error or ask for input again
+            return
         entry = user_input.strip('|')
         info_list = []
         
