@@ -22,19 +22,19 @@ class Rec(Frame):
         self.clear_screen()
         self.textbox2 = Label(self, text="Add movies that you like in this format: |movie name, genre, rum time|")
         self.textbox2.pack(padx= 20, pady=20)
-        self.moviebox= Text(root, height=2, width=10)
+        self.moviebox= Text(root, height=1, width=30)
         self.moviebox.pack()
 
         buttonCommit = Button(root, height=1, width=10, text="Confirm", command=lambda: self.printinput())
         buttonCommit.pack()
         
 
-       # movie_input = input('Add movies that you like in this format: |movie name, genre, rum time| \n') 
+        #movie_input = self.inputValue #input('Add movies that you like in this format: |movie name, genre, rum time| \n') 
         return self.promt(self.printinput(), 'movies.txt')
        
 
     def book(self):
-
+        self.clear_screen()
         books_input = input('Add books that you like in this format: |book name, genre, pages| \n')
         return self.promt(books_input, 'books.txt') 
         
@@ -134,7 +134,7 @@ class Rec(Frame):
         self.entry = Entry(self)
         self.entry.pack()
         var.trace("w", self.printinput)
-        
+
         genre = input('What genre are you looking for?')
         
         return self.recomendations(file, 'recomendation.txt', 'Genre', genre)
